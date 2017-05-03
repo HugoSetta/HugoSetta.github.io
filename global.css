@@ -1,0 +1,96 @@
+/*
+FONTS
+font-family: 'Roboto', sans-serif;
+font-family: 'Lora', serif;*/
+
+/*
+When setting the primary font stack, apply it to the Pure grid units along
+with `html`, `button`, `input`, `select`, and `textarea`. Pure Grids use
+specific font stacks to ensure the greatest OS/browser compatibility.
+*/
+        
+        html,
+        button,
+        input,
+        select,
+        textarea,
+        .pure-g [class *="pure-u"] {
+            /* Set your content font stack here: */
+            font-family: 'Roboto', sans-serif;
+        }
+
+/**{
+        outline: red 1px solid;
+        padding: 5px;
+}*/
+
+.top{
+        background-color: #6C2CA8;
+        color: #fff;
+}
+.body{
+        background-color: #e5e5e5;
+        color: #333333;
+}
+
+
+/*Night Mode*/
+.night.body{
+        background-color: #333333;
+        color: #f2f2f2;
+}
+
+
+.max-width{
+        width: 100%;
+        max-width: 48em;
+        /*padding: 0 10px;*/
+        margin: 0 auto;
+}
+
+/*Page Check*/
+.disable{
+        color: #9B51E0;
+}
+#page_list, #page_text{
+        width: 100%;
+}
+.pages{
+        display: none;
+}
+
+.visible{
+        display: block;
+}
+
+#bt_back, #bt_night{
+        cursor: pointer;
+        }
+        #bt_back.disable{
+                cursor: auto;
+        }
+        
+        
+/*Lista        */
+.list_item{}
+.item_title{
+        font-size: 1.5em;
+        font-weight: bold;
+        display: block;
+}
+.item_time{}
+
+
+
+.pages_content{
+        padding: 0 20px;
+}
+
+@media screen and (min-width: 48em){
+        .pages_content{
+                padding: 0;
+        }
+        .item_title{
+                font-size: 2.5em;
+        }
+}

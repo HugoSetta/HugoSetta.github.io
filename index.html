@@ -10,11 +10,11 @@
 
     <!--Font Awesome-->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-        crossorigin="anonymous">
-        
+    crossorigin="anonymous">
+
     <!--jQuery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    
+
     <!--Google Fonts-->
     <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i|Roboto:400,400i,700,700i" rel="stylesheet">
 
@@ -24,42 +24,114 @@
     <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/grids-responsive-min.css">
 
 
-    <style>
-/*
-FONTS
-font-family: 'Roboto', sans-serif;
-font-family: 'Lora', serif;*/
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="global.css">
 
-/*
-When setting the primary font stack, apply it to the Pure grid units along
-with `html`, `button`, `input`, `select`, and `textarea`. Pure Grids use
-specific font stacks to ensure the greatest OS/browser compatibility.
-*/
-        
-        html,
-        button,
-        input,
-        select,
-        textarea,
-        .pure-g [class *="pure-u"] {
-            /* Set your content font stack here: */
-            font-family: 'Roboto', sans-serif;
-        }
-    </style>
+    <!--Custom JS-->
+    <script src="global.js"></script>
 </head>
 
-<body>
+<body class="body" id="body">
 
-   <div class="stage">
-       <div class="top">
-           <div class="max-width">Header</div>
-       </div>
-       <div class="page">
-           <div class="max-width">Page</div>
-       </div>
-       
-   </div>
+    <div class="stage">
+        <div class="top">
+            <div class="max-width">
+                <div class="pure-g">
+                    <div class="pure-u-1-12">
+                        <span id="bt_back">
+                            <i class="fa fa-arrow-left" aria-hidden="true" onclick="changePage('list')"></i>
+                        </span>
+                    </div>
+                    <div class="pure-u-5-6">Hora da História</div>
+
+                    <div class="pure-u-1-12">
+                        <span id="bt_night">
+                            <i class="fa fa-moon-o" aria-hidden="true" onclick="nightMode()"></i>
+                       </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="page">
+            <div class="max-width">
+
+                <div id="page_list" class="pages">
+                    <div class="pages_content">
+                    <div class="list_item">
+                        <span class="item_title">O Patinho Feio</span>
+                        <span class="item_time">12 min. de leitura</span>
+                    </div>
+                    <div class="list_item">
+                        <span class="item_title">Os Três Porquinhos e o Mágico de Oz 2099</span>
+                        <span class="item_time">12 min. de leitura</span>
+                    </div>
+                    <div class="list_item">
+                        <span class="item_title">O Patinho Feio</span>
+                        <span class="item_time">12 min. de leitura</span>
+                    </div>
+                    <div class="list_item">
+                        <span class="item_title">O Patinho Feio</span>
+                        <span class="item_time">12 min. de leitura</span>
+                    </div>
+                    <div class="list_item">
+                        <span class="item_title">O Patinho Feio</span>
+                        <span class="item_time">12 min. de leitura</span>
+                    </div>
+                    <div class="list_item">
+                        <span class="item_title">O Patinho Feio</span>
+                        <span class="item_time">12 min. de leitura</span>
+                    </div>
+                    <div class="list_item">
+                        <span class="item_title">O Patinho Feio</span>
+                        <span class="item_time">12 min. de leitura</span>
+                    </div>
+                    <div class="list_item">
+                        <span class="item_title">O Patinho Feio</span>
+                        <span class="item_time">12 min. de leitura</span>
+                    </div>
+                    <div class="list_item">
+                        <span class="item_title">O Patinho Feio</span>
+                        <span class="item_time">12 min. de leitura</span>
+                    </div>
+                    <div class="list_item">
+                        <span class="item_title">O Patinho Feio</span>
+                        <span class="item_time">12 min. de leitura</span>
+                    </div>
+                    <div class="list_item">
+                        <span class="item_title">O Patinho Feio</span>
+                        <span class="item_time">12 min. de leitura</span>
+                    </div>
+                    <div class="list_item">
+                        <span class="item_title">O Patinho Feio</span>
+                        <span class="item_time">12 min. de leitura</span>
+                    </div>
+                    <div class="list_item">
+                        <span class="item_title">O Patinho Feio</span>
+                        <span class="item_time">12 min. de leitura</span>
+                    </div>
+                    
+                    
+                    <span onclick="changePage('text')">Click</span>
+                    </div>
+                </div>
+                <div id="page_text" class="pages">
+                     <div class="pages_content">
+                    VocÊ está no texto
+                     </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
 
 </body>
+<script>
+    $(document).ready(function(){
+        console.log(1);
+       checkPage(); 
+    });
+</script>
 
 </html>
