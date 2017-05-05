@@ -27,6 +27,8 @@ specific font stacks to ensure the greatest OS/browser compatibility.
 .top{
         background-color: #6C2CA8;
         color: #fff;
+        position: fixed;
+        width: 100%;
 }
 .body{
         background-color: #e5e5e5;
@@ -46,6 +48,11 @@ specific font stacks to ensure the greatest OS/browser compatibility.
         max-width: 48em;
         /*padding: 0 10px;*/
         margin: 0 auto;
+}
+
+.top_item{
+        padding: 5px;
+        display: block;
 }
 
 /*Page Check*/
@@ -69,7 +76,16 @@ specific font stacks to ensure the greatest OS/browser compatibility.
         #bt_back.disable{
                 cursor: auto;
         }
+        #bt_back{
+                text-align: left;
+        }
+        #bt_night{
+                text-align: right;
+        }
         
+.top_title{
+        text-align: center;
+}
         
 /*Lista        */
 .list_item{}
