@@ -1,0 +1,36 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        
+    </head>
+    <body>
+      <h1>Save Local Storage</h1>
+      <h2><a href="index.html">Back to index</a></h2>
+    
+      <p>This page demonstrate how to save and load something using your local storage. Write something, and click the save button. Close your borwser than reach this page again. The saved text should be loaded.</p>  
+
+        <p>Input something <input id="myLocalInput" type="text" value="Hello!"/><input type="button" value="Save in local storage" onclick="saveLocal()"/>Save in local storage</input></p>
+      
+        <p>This was in your local storage: <strong><span id="myLocalOutput"></span></strong></p>
+
+        <script>
+        function saveLocal(){
+            var getField = document.getElementById("myLocalInput").value;
+            localStorage.setItem("mylocaltest", getField);
+            //alert("Dados salvos!");
+        }
+        function loadLocal(){
+           var getField = localStorage.mylocaltest;
+           document.getElementById("myLocalOutput").innerHTML = getField;
+           //alert("Dados carregados!");
+        }
+        loadLocal();
+        </script>
+    </body>
+</html>
