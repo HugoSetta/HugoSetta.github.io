@@ -1,0 +1,104 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>DailyChrono</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <style>
+ body,html{
+    background-color: #303F9F;
+    color: #CACACA;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.2em;
+ }
+ #big{
+     font-size: 22em;
+     font-weight: bold;
+     color: #fff;
+     margin-top: 50px;
+ }
+ span{
+     display: block;
+     text-align: center;
+ }
+ 
+ 
+ </style>
+</head>
+
+<body id="body">
+    <div id="r">
+
+        <span id="big">5:00</span>
+        <span id="small">00:00</span>
+        <span id="dica">Use "time=X" na URL, ond X é a quantidade de minutos desejada.<br />O padrão são 5 minutos.</span>
+    </div>
+
+    <script>
+        function getTimeURL() {
+            var ur = window.location.toString();
+            ur = ur.split("?time=");
+
+            if (ur.length > 1) {
+                if (!isNaN(parseInt(ur[1]))) {
+                    global_top = parseInt(ur[1]);
+                    document.getElementById("dica").style.display = "none";
+                }
+            }
+
+        }
+
+        var global_sec = 0;
+        var global_top = 5;
+
+
+
+        function exibe() {
+            document.getElementById("big").innerHTML = formatTime(global_top);
+            document.getElementById("small").innerHTML = "Tempo total " + formatTime(global_sec);
+        }
+
+        function formatTime(t) {
+            var quotient = Math.floor(t / 60).toString();
+            if (quotient.length < 2) { quotient = "0" + quotient; }
+
+            var remainder = (t % 60).toString();
+            if (remainder.length < 2) { remainder = "0" + remainder; }
+
+            return quotient + ":" + remainder;
+        }
+
+
+
+        function looper() {
+            exibe();
+            global_sec++;
+            global_top--;
+            if (global_top <= 0) {
+                document.getElementById("big").style.color = "#FF5722";
+                global_top = 0;
+            }
+            var x = setTimeout("looper()", 5);
+        }
+
+
+
+
+
+        function start() {
+            getTimeURL();
+            global_top = global_top * 60;
+            looper();
+        }
+        start();
+
+
+    </script>
+
+</body>
+
+</html>
