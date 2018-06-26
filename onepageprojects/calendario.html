@@ -1,0 +1,143 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+    body{
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.9em;
+    }
+    td{
+        border-left: solid 1px #000;
+        border-top: solid 1px #000;
+        padding: 3px;
+        width: 20%;
+        height: 127px;
+        vertical-align: top;
+        
+    }
+    .linha1 td{
+        text-align: center;
+        height: 10px;
+    }
+    table{
+        width: 100%;
+        border-bottom: solid 1px #000;
+        border-right: solid 1px #000;
+    }
+</style>
+       
+    </head>
+    <body>
+        <!-- Como utilizar:
+        Use os seguintes parametros
+        calendario.html?1?2?31
+        1 = mes. 1 para janeiro, 2 fevereiro, etc
+        2 = dia da semana, que o mês começa
+        31 = Dias no mês
+         -->
+        <div id="r">
+           
+        </div>
+        <script>
+        function start(){
+            if(window.location.toString().split("?").length < 2){
+                alert("Use \"?Março?2?31");
+                return;
+            }
+
+
+            var mes = parseInt(window.location.toString().split("?")[1]);
+            var diai = parseInt(window.location.toString().split("?")[2]);
+            var diaf = parseInt(window.location.toString().split("?")[3]);
+
+            
+
+            var r="";
+
+         //Titulo
+         var meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+         r+='<span class="titulo">'+meses[mes-1]+'</span>';
+         
+         //Tabela
+         r+= '<table cellspacing="0" cellpading="0"><tr class="linha1"><td>Segunda</td><td>Terça</td><td>Quarta</td><td>Quinta</td><td>Sexta</td></tr>';
+
+
+            var fim = false;
+            var semana;
+            var diaDaSemana = 1;
+            var diaMes = 1;
+            var qtdSemanas = 1;
+
+            while(fim == false){
+                //Semana
+                semana = "<tr>";
+
+                diaDaSemana =1;
+                
+                while(diaDaSemana<=7){
+                    var stealth = "";
+                        if(diaDaSemana == 1 || diaDaSemana == 7){
+                            stealth = ' style="display:none;"';
+                        }
+                    
+                    if(qtdSemanas != 1){
+                        semana+='<td'+stealth+'>';
+                        if(diaMes <= diaf){
+                            semana+=diaMes;
+                        }
+                        semana+='</td>';
+                    }else{
+                        semana+='<td'+stealth+'>';
+                        if(diaDaSemana < diai){
+                            diaMes--;
+                        }else{
+                            semana+=diaMes;
+                        }
+
+                          
+                       
+                        semana+='</td>';
+                    }
+                   
+                    diaDaSemana++;
+                   
+                    
+                    diaMes++;
+                    if(diaMes > diaf){
+                        fim = true;
+                    }
+
+                }
+                if(diaMes >= (diaf)){
+                    fim = true;
+                }
+
+                semana += "</tr>";
+              
+                qtdSemanas++;
+               
+                if(diai != 7 || qtdSemanas != 2){
+                 
+                    r+=semana;
+                 
+                }
+
+
+            }
+
+
+         r+= '</table>';
+
+        //Fim
+        document.getElementById("r").innerHTML = r;
+        }
+        start();
+        </script>
+        
+    </body>
+</html>
