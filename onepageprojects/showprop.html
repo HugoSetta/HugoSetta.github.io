@@ -1,0 +1,112 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Show Proportion</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+<style>
+
+#stage{
+    height: 350px;
+}
+#square{ 
+    position: absolute;
+    outline: dotted 1px #666;
+    width: 300px;
+    height: 300px;
+    top:50px;
+    left: 50px;
+    }
+#prop{ 
+    position: absolute;
+    outline: solid 1px #f55;
+    width: 300px;
+    height: 300px;
+    top:50px;
+    left: 50px;
+    }
+.label{
+    width: 50px;
+    display: inline-block;
+}
+#propfactor{
+    position: absolute;
+    top: 70px;
+    left: 70px;
+    color: #f55;
+}
+
+</style>
+  
+</head>
+
+<body>
+  
+  <div id="stage">
+      <div id="propfactor">1:1</div>
+      <div id="square"></div>
+      <div id="prop"></div>
+  </div>
+<div id="form">
+    <p>Insert proportions to compare a polygon <span style="color: #f55;">(red)</span> with the square (dotted) above.</p>
+    <span class="label">Width</span><input type="text" id="in-wi" onkeyup="recalc();"/><br />
+    <span class="label">Height</span><input type="text" id="in-he" onkeyup="recalc();"/><br />
+    <span style="text-decoration: underline; cursor: pointer" onclick="swap();">Swap values</span><br />
+</div>
+  
+  <script>
+  function recalc(){
+      var inw = parseFloat(document.getElementById("in-wi").value);
+      var inh = parseFloat(document.getElementById("in-he").value);
+      if(isNaN(inw) || isNaN(inh)){return;}
+
+      var newW;
+      var newH;
+
+      if(inw > inh){
+          newW = 300;
+          newH = (300*inh)/inw;
+      }else{
+          newH = 300;
+          newW = (300*inw)/inh;
+      }
+
+      document.getElementById("prop").style.width = newW + "px";
+      document.getElementById("prop").style.height = newH + "px";
+
+     var x = reduce(inw,inh);
+     document.getElementById("propfactor").innerHTML = x[0] + ":" + x[1];
+  }
+
+function reduce(numerator,denominator){
+  var gcd = function gcd(a,b){
+    return b ? gcd(b, a%b) : a;
+  };
+  gcd = gcd(numerator,denominator);
+  return [numerator/gcd, denominator/gcd];
+}
+
+
+function swap(){
+        var inw = parseFloat(document.getElementById("in-wi").value);
+        var inh = parseFloat(document.getElementById("in-he").value);  
+
+        document.getElementById("in-wi").value = inh;
+        document.getElementById("in-he").value = inw;  
+
+        recalc();
+}
+
+
+
+
+  </script>
+  
+</body>
+
+</html>
