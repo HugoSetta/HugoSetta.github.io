@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Documento sem título</title>
+</head>
+
+<body>
+<p>1 - Insira o código da &quot;Tabela SIDRA&quot; ou &quot;Série Histórica&quot;<br />
+(use o editor com a visão completa do Joomla)<br />
+Cole SOMENTE a string a ser convertida, que fica entre aspas.<br />
+ATENÇÃO: Alguns períodos precisam ser modificados em mais de uma propriedade.</p>
+<div>
+	Para períodos:<br />
+	Delimitar um espaço de vários períodos, use "-": 201701-201712 (abrange TODOS os meses no intervalo).<br />
+	Selecionar meses isolados: use ",": 201701,201712 (abrange somente os meses citados)
+</div>
+<p>
+  <textarea name="entrada" id="entrada" rows="5" cols="100" onclick="this.focus();this.select()"></textarea>
+</p>
+<button type="button" onclick="entrada()">Converter p JSON</button>
+
+<p>2 - Edite o código abaixo com os novos parametros desejados</p>
+<p>
+  <textarea name="meio" id="meio" rows="30" cols="100"></textarea>
+</p>
+<button type="button" onclick="saida()">Converter p HASH</button>
+<p>3 - Copie o código abaixo no Joomla</p>
+  <textarea name="saida" id="saida" rows="5" cols="100" onclick="this.focus();this.select()"></textarea>
+<p>&nbsp;</p>
+</body>
+<script>
+var global_entrada = "";
+var global_saida = "";
+
+function entrada(){
+	global_entrada = document.getElementById("entrada").value;
+	var tempJJ = JSON.stringify(JSON.parse(atob(global_entrada)),undefined,2);
+	
+	document.getElementById("meio").value = tempJJ;
+	
+	
+	//global_entrada = document.getElementById("entrada").value;
+	//document.getElementById("meio").value = atob(global_entrada);
+	}
+	
+function saida(){
+	var tempJson = JSON.parse(document.getElementById("meio").value);
+	global_saida = btoa(JSON.stringify(tempJson));
+	document.getElementById("saida").value = global_saida;
+}
+/*
+Para testar
+
+ewogICJyZW5kZXJlck9wdGlvbnMiOiB7CiAgICAibG9jYWxlU3RyaW5ncyI6IHsKICAgICAgInJlbmRlckVycm9yIjogIk9jb3JyZXUgdW0gZXJyb3IgYW8gcmVuZGVyaXphciBvcyByZXN1bHRhZG9zIGRhIFRhYmVsYSBEaW7jbWljYS4iLAogICAgICAiY29tcHV0ZUVycm9yIjogIk9jb3JyZXUgdW0gZXJyb3IgYW8gY29tcHV0YXIgb3MgcmVzdWx0YWRvcyBkYSBUYWJlbGEgRGlu421pY2EuIiwKICAgICAgInVpUmVuZGVyRXJyb3IiOiAiT2NvcnJldSB1bSBlcnJvciBhbyByZW5kZXJpemFyIGEgaW50ZXJmYWNlIGRhIFRhYmVsYSBEaW7jbWljYS4iLAogICAgICAic2VsZWN0QWxsIjogIlNlbGVjaW9uYXIgVHVkbyIsCiAgICAgICJzZWxlY3ROb25lIjogIlNlbGVjaW9uYXIgTmVuaHVtIiwKICAgICAgInRvb01hbnkiOiAiKGRlbWFpcyBwYXJhIGxpc3RhcikiLAogICAgICAiZmlsdGVyUmVzdWx0cyI6ICJGaWx0cmFyIHJlc3VsdGFkb3MiLAogICAgICAiYXBwbHkiOiAiQXBwbHkiLAogICAgICAiY2FuY2VsIjogIkNhbmNlbCIsCiAgICAgICJ0b3RhbHMiOiAiVG90YWlzIiwKICAgICAgInZzIjogInZzIiwKICAgICAgImJ5IjogInBvciIKICAgIH0sCiAgICAidGl0bGUiOiB7CiAgICAgICJ0ZXh0IjogIi0iCiAgICB9LAogICAgInN1YnRpdGxlIjogewogICAgICAidGV4dCI6ICItIgogICAgfSwKICAgICJjaGFydCI6IHsKICAgICAgImRlc2NyaXB0aW9uIjogIkEgSUJHRSBjdXN0b21pemVkIGNoYXJ0IGRlc2NyaXB0aW9uIgogICAgfQogIH0sCiAgImRlcml2ZWRBdHRyaWJ1dGVzIjoge30sCiAgInJlbmRlcmVycyI6IHt9LAogICJoaWRkZW5BdHRyaWJ1dGVzIjogW10sCiAgIm1lbnVMaW1pdCI6IDUwMCwKICAiY29scyI6IFsKICAgICIgICAiCiAgXSwKICAicm93cyI6IFsKICAgICIgICAgIgogIF0sCiAgInZhbHMiOiBbXSwKICAicm93T3JkZXIiOiAia2V5X2FfdG9feiIsCiAgImNvbE9yZGVyIjogImtleV9hX3RvX3oiLAogICJleGNsdXNpb25zIjoge30sCiAgImluY2x1c2lvbnMiOiB7fSwKICAidW51c2VkQXR0cnNWZXJ0aWNhbCI6IDg1LAogICJhdXRvU29ydFVudXNlZEF0dHJzIjogZmFsc2UsCiAgInNvcnRlcnMiOiB7fSwKICAiYWdncmVnYXRvck5hbWUiOiAiU29tYSIsCiAgImluY2x1c2lvbnNJbmZvIjoge30sCiAgInJlbmRlcmVyTmFtZSI6ICJUYWJlbGEgSW1wdXThdmVsIgp9
+*/
+
+
+</script>
+</html>
