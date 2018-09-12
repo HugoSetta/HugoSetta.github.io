@@ -1,60 +1,128 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Documento sem título</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Documento sem título</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
-<p>1 - Insira o código da &quot;Tabela SIDRA&quot; ou &quot;Série Histórica&quot;<br />
-(use o editor com a visão completa do Joomla)<br />
-Cole SOMENTE a string a ser convertida, que fica entre aspas.<br />
-ATENÇÃO: Alguns períodos precisam ser modificados em mais de uma propriedade.</p>
-<div>
-	Para períodos:<br />
-	Delimitar um espaço de vários períodos, use "-": 201701-201712 (abrange TODOS os meses no intervalo).<br />
-	Selecionar meses isolados: use ",": 201701,201712 (abrange somente os meses citados)
-</div>
-<p>
-  <textarea name="entrada" id="entrada" rows="5" cols="100" onclick="this.focus();this.select()"></textarea>
-</p>
-<button type="button" onclick="entrada()">Converter p JSON</button>
+    <p>1 - Insira o código da &quot;Tabela SIDRA&quot; ou &quot;Série Histórica&quot;
+        <br /> (use o editor com a visão completa do Joomla)
+        <br /> Cole SOMENTE a string a ser convertida, que fica entre aspas.
+        <br /> ATENÇÃO: Alguns períodos precisam ser modificados em mais de uma propriedade.</p>
+    <div>
+        Para períodos:
+        <br /> Delimitar um espaço de vários períodos, use "-": 201701-201712 (abrange TODOS os meses no intervalo).
+        <br /> Selecionar meses isolados: use ",": 201701,201712 (abrange somente os meses citados)
+    </div>
+    <p>
+        <textarea name="entrada" id="entrada" rows="30" cols="300" onclick="this.focus();this.select()">            
+        </textarea>
+    </p>
+    <button type="button" onclick="processaTagTabelas()">Converter p JSON</button>
 
-<p>2 - Edite o código abaixo com os novos parametros desejados</p>
-<p>
-  <textarea name="meio" id="meio" rows="30" cols="100"></textarea>
-</p>
-<button type="button" onclick="saida()">Converter p HASH</button>
-<p>3 - Copie o código abaixo no Joomla</p>
-  <textarea name="saida" id="saida" rows="5" cols="100" onclick="this.focus();this.select()"></textarea>
-<p>&nbsp;</p>
+    <p>2 - Edite o código abaixo com os novos parametros desejados</p>
+    <div class="meio">        
+    </div>
+    <button type="button" onclick="saida()">Converter p HASH</button>
+    <p>3 - Copie o código abaixo no Joomla</p>
+    <textarea name="saida" id="saida" rows="20" cols="300" onclick="this.focus();this.select()"></textarea>
+    <p>&nbsp;</p>
 </body>
 <script>
-var global_entrada = "";
-var global_saida = "";
+    var global_entrada = "";
+    var global_saida = "";
 
-function entrada(){
-	global_entrada = document.getElementById("entrada").value;
-	var tempJJ = JSON.stringify(JSON.parse(atob(global_entrada)),undefined,2);
-	
-	document.getElementById("meio").value = tempJJ;
-	
-	
-	//global_entrada = document.getElementById("entrada").value;
-	//document.getElementById("meio").value = atob(global_entrada);
-	}
-	
-function saida(){
-	var tempJson = JSON.parse(document.getElementById("meio").value);
-	global_saida = btoa(JSON.stringify(tempJson));
-	document.getElementById("saida").value = global_saida;
-}
-/*
-Para testar
+    function entrada() {
+        global_entrada = document.getElementById("entrada").value;
+        var tempJJ = JSON.stringify(JSON.parse(atob(global_entrada)), undefined, 2);
 
-ewogICJyZW5kZXJlck9wdGlvbnMiOiB7CiAgICAibG9jYWxlU3RyaW5ncyI6IHsKICAgICAgInJlbmRlckVycm9yIjogIk9jb3JyZXUgdW0gZXJyb3IgYW8gcmVuZGVyaXphciBvcyByZXN1bHRhZG9zIGRhIFRhYmVsYSBEaW7jbWljYS4iLAogICAgICAiY29tcHV0ZUVycm9yIjogIk9jb3JyZXUgdW0gZXJyb3IgYW8gY29tcHV0YXIgb3MgcmVzdWx0YWRvcyBkYSBUYWJlbGEgRGlu421pY2EuIiwKICAgICAgInVpUmVuZGVyRXJyb3IiOiAiT2NvcnJldSB1bSBlcnJvciBhbyByZW5kZXJpemFyIGEgaW50ZXJmYWNlIGRhIFRhYmVsYSBEaW7jbWljYS4iLAogICAgICAic2VsZWN0QWxsIjogIlNlbGVjaW9uYXIgVHVkbyIsCiAgICAgICJzZWxlY3ROb25lIjogIlNlbGVjaW9uYXIgTmVuaHVtIiwKICAgICAgInRvb01hbnkiOiAiKGRlbWFpcyBwYXJhIGxpc3RhcikiLAogICAgICAiZmlsdGVyUmVzdWx0cyI6ICJGaWx0cmFyIHJlc3VsdGFkb3MiLAogICAgICAiYXBwbHkiOiAiQXBwbHkiLAogICAgICAiY2FuY2VsIjogIkNhbmNlbCIsCiAgICAgICJ0b3RhbHMiOiAiVG90YWlzIiwKICAgICAgInZzIjogInZzIiwKICAgICAgImJ5IjogInBvciIKICAgIH0sCiAgICAidGl0bGUiOiB7CiAgICAgICJ0ZXh0IjogIi0iCiAgICB9LAogICAgInN1YnRpdGxlIjogewogICAgICAidGV4dCI6ICItIgogICAgfSwKICAgICJjaGFydCI6IHsKICAgICAgImRlc2NyaXB0aW9uIjogIkEgSUJHRSBjdXN0b21pemVkIGNoYXJ0IGRlc2NyaXB0aW9uIgogICAgfQogIH0sCiAgImRlcml2ZWRBdHRyaWJ1dGVzIjoge30sCiAgInJlbmRlcmVycyI6IHt9LAogICJoaWRkZW5BdHRyaWJ1dGVzIjogW10sCiAgIm1lbnVMaW1pdCI6IDUwMCwKICAiY29scyI6IFsKICAgICIgICAiCiAgXSwKICAicm93cyI6IFsKICAgICIgICAgIgogIF0sCiAgInZhbHMiOiBbXSwKICAicm93T3JkZXIiOiAia2V5X2FfdG9feiIsCiAgImNvbE9yZGVyIjogImtleV9hX3RvX3oiLAogICJleGNsdXNpb25zIjoge30sCiAgImluY2x1c2lvbnMiOiB7fSwKICAidW51c2VkQXR0cnNWZXJ0aWNhbCI6IDg1LAogICJhdXRvU29ydFVudXNlZEF0dHJzIjogZmFsc2UsCiAgInNvcnRlcnMiOiB7fSwKICAiYWdncmVnYXRvck5hbWUiOiAiU29tYSIsCiAgImluY2x1c2lvbnNJbmZvIjoge30sCiAgInJlbmRlcmVyTmFtZSI6ICJUYWJlbGEgSW1wdXThdmVsIgp9
-*/
+        document.getElementById("meio").value = tempJJ;
+    }
+
+    function saida() {
+        var jsonEditado = jQuery('textarea[id^="textarea-"]');
+        var textoOriginal = jQuery("<div id='caixa'></div>").append(jQuery("#entrada").val());
+        
+        jQuery.each(jsonEditado,function(i,val){
+            var jsonEditadoItem     = JSON.parse(jQuery(val).val());
+            var id                  = jsonEditadoItem.id;
+            var divOriginal         = textoOriginal.find("#"+id)
+
+            jQuery.each(jsonEditadoItem,function(k,v){
+                if(k !== 'id'){
+                    if(k == "data-order"){
+                        //Trata do data-order = sidra, que não vem no formato json e gera múltiplas conversões quando usado várias vezes nesta ferramenta.
+                        divOriginal.attr(k,btoa(v));
+                    }else{
+                        divOriginal.attr(k,btoa(JSON.stringify(v)));
+                    }
+                }                
+            });
+
+            //textoOriginal.find("#"+id).replaceWith(divOriginal);
+        });
+        jQuery("#saida").val(textoOriginal[0].innerHTML);
+    }
+
+    function processaTagTabelas() {
+        var tags = [];
+        var html = jQuery("<div id='caixa'></div>").append(jQuery("#entrada").val());
+        var tabs = jQuery(html).find("div[id^='tabelasidra'],div[id^='seriehistorica']");
+        jQuery('div.meio').empty();
+
+        jQuery(tabs).each(function (index, item) {
+            var obj = parseDiv(item);
+            var textarea = jQuery('<textarea id="textarea-'+obj.id+'" data-ref="'+obj.id+'" rows="30" cols="100"></textarea>');
+            textarea.before(jQuery('<p>'+obj.id+'</p>'));
+
+            obj = JSON.stringify((obj), undefined, 2);
+            textarea.text(obj);
+            
+            
+            jQuery('div.meio').append(textarea);            
+        });
+
+        return;
+    }
+
+    function parseDiv(item) {
+        var obj = false;
+
+        if (item.id.indexOf('chzn') == '-1') {
+            var obj = {
+                id: item.id,
+                'data-searchquery': JSON.parse(window.atob(item.getAttribute('data-searchquery'))),
+                'data-pivotparams': JSON.parse(window.atob(item.getAttribute('data-pivotparams'))),
+                'data-regioes': JSON.parse(window.atob(item.getAttribute('data-regioes'))),
+                'data-formquery': JSON.parse(window.atob(item.getAttribute('data-formquery')))
+            };
+            if (!!item.getAttribute('data-tablealias')) {
+                obj['data-tablealias'] = JSON.parse(window.atob(item.getAttribute('data-tablealias')));
+            }
+            if (!!item.getAttribute('data-order')) {
+                obj['data-order'] = window.atob(item.getAttribute('data-order'));
+            }
+        }
+        return obj;
+    }
+
+    /*
+    Para testar
+
+    ewogICJyZW5kZXJlck9wdGlvbnMiOiB7CiAgICAibG9jYWxlU3RyaW5ncyI6IHsKICAgICAgInJlbmRlckVycm9yIjogIk9jb3JyZXUgdW0gZXJyb3IgYW8gcmVuZGVyaXphciBvcyByZXN1bHRhZG9zIGRhIFRhYmVsYSBEaW7jbWljYS4iLAogICAgICAiY29tcHV0ZUVycm9yIjogIk9jb3JyZXUgdW0gZXJyb3IgYW8gY29tcHV0YXIgb3MgcmVzdWx0YWRvcyBkYSBUYWJlbGEgRGlu421pY2EuIiwKICAgICAgInVpUmVuZGVyRXJyb3IiOiAiT2NvcnJldSB1bSBlcnJvciBhbyByZW5kZXJpemFyIGEgaW50ZXJmYWNlIGRhIFRhYmVsYSBEaW7jbWljYS4iLAogICAgICAic2VsZWN0QWxsIjogIlNlbGVjaW9uYXIgVHVkbyIsCiAgICAgICJzZWxlY3ROb25lIjogIlNlbGVjaW9uYXIgTmVuaHVtIiwKICAgICAgInRvb01hbnkiOiAiKGRlbWFpcyBwYXJhIGxpc3RhcikiLAogICAgICAiZmlsdGVyUmVzdWx0cyI6ICJGaWx0cmFyIHJlc3VsdGFkb3MiLAogICAgICAiYXBwbHkiOiAiQXBwbHkiLAogICAgICAiY2FuY2VsIjogIkNhbmNlbCIsCiAgICAgICJ0b3RhbHMiOiAiVG90YWlzIiwKICAgICAgInZzIjogInZzIiwKICAgICAgImJ5IjogInBvciIKICAgIH0sCiAgICAidGl0bGUiOiB7CiAgICAgICJ0ZXh0IjogIi0iCiAgICB9LAogICAgInN1YnRpdGxlIjogewogICAgICAidGV4dCI6ICItIgogICAgfSwKICAgICJjaGFydCI6IHsKICAgICAgImRlc2NyaXB0aW9uIjogIkEgSUJHRSBjdXN0b21pemVkIGNoYXJ0IGRlc2NyaXB0aW9uIgogICAgfQogIH0sCiAgImRlcml2ZWRBdHRyaWJ1dGVzIjoge30sCiAgInJlbmRlcmVycyI6IHt9LAogICJoaWRkZW5BdHRyaWJ1dGVzIjogW10sCiAgIm1lbnVMaW1pdCI6IDUwMCwKICAiY29scyI6IFsKICAgICIgICAiCiAgXSwKICAicm93cyI6IFsKICAgICIgICAgIgogIF0sCiAgInZhbHMiOiBbXSwKICAicm93T3JkZXIiOiAia2V5X2FfdG9feiIsCiAgImNvbE9yZGVyIjogImtleV9hX3RvX3oiLAogICJleGNsdXNpb25zIjoge30sCiAgImluY2x1c2lvbnMiOiB7fSwKICAidW51c2VkQXR0cnNWZXJ0aWNhbCI6IDg1LAogICJhdXRvU29ydFVudXNlZEF0dHJzIjogZmFsc2UsCiAgInNvcnRlcnMiOiB7fSwKICAiYWdncmVnYXRvck5hbWUiOiAiU29tYSIsCiAgImluY2x1c2lvbnNJbmZvIjoge30sCiAgInJlbmRlcmVyTmFtZSI6ICJUYWJlbGEgSW1wdXThdmVsIgp9
 
 
+    <div id="tabelasidra201784141147667" data-formquery="ewogICJ0YWJsZWlkIjogIjYzODEiLAogICJ2YXJpYXZlbCI6ICI0MDk5LDg4MTEsODgxNiIsCiAgInBlcmlvZG8iOiAiLTEiLAogICJ0ZXJyaXRvcmlvIjogWwogICAgIjEtMSIKICBdLAogICJjYXRlZ29yaWEiOiBbXQp9" data-searchquery="ewogICJ0IjogIjYzODEiLAogICJ2IjogIjQwOTksODgxMSw4ODE2IiwKICAicCI6ICItMSIsCiAgIm5nIjogIjEoMSkiLAogICJjIjogIiIsCiAgIm5vdGEiOiAiXCIxIC0gUGFyYSBcXFwiPGI+U2l0dWEmY2NlZGlsOyZhdGlsZGU7byBkYSBWYXJpYSZjY2VkaWw7JmF0aWxkZTtvIGVtIHJlbGEmY2NlZGlsOyZhdGlsZGU7byBhIHRyJmVjaXJjO3MgdHJpbWVzdHJlcyBtJm9hY3V0ZTt2ZWlzIGFudGVyaW9yZXMgKC4uLik8L2I+XFxcIiBlIFxcXCI8Yj5TaXR1YSZjY2VkaWw7JmF0aWxkZTtvIGRhIFZhcmlhJmNjZWRpbDsmYXRpbGRlO28gZW0gcmVsYSZjY2VkaWw7JmF0aWxkZTtvIGFvIG1lc21vIHRyaW1lc3RyZSBtJm9hY3V0ZTt2ZWwgZG8gYW5vIGFudGVyaW9yICguLi4pPC9iPlxcXCI6PGJyPiAnWicgaW5kaWNhIHNpZ25pZmljJmFjaXJjO25jaWEgZXN0YXQmaWFjdXRlO3N0aWNhIGNvbnNpZGVyYW5kbyA5NSUgZGUgY29uZmlhbiZjY2VkaWw7YTs8YnI+ICdBJyBpbmRpY2EgYXVzJmVjaXJjO25jaWEgZGUgc2lnbmlmaWMmYWNpcmM7bmNpYSBlc3RhdCZpYWN1dGU7c3RpY2EgY29uc2lkZXJhbmRvIDk1JSBkZSBjb25maWFuJmNjZWRpbDthLjxicj48YnI+MiAtIEEgcGFydGlyIGRlIGFicmlsIGRlIDIwMTYsIHVtIGFzcGVjdG8gZG8gY29uY2VpdG8gZGUgZGVzb2N1cGEmY2NlZGlsOyZhdGlsZGU7byBmb2kgYWx0ZXJhZG8gZGUgZm9ybWEgYSBzZSBhZGVxdWFyIGludGVpcmFtZW50ZSAmYWdyYXZlOyAxOSZvcmRmOyBDb25mZXImZWNpcmM7bmNpYSBJbnRlcm5hY2lvbmFsIGRlIEVzdGF0JmlhY3V0ZTtzdGljb3MgZG8gVHJhYmFsaG8gLSBDSUVULCByZWFsaXphZGEgZW0gb3V0dWJybyBkZSAyMDEzLCBzZW5kbyBvIHF1ZXN0aW9uJmFhY3V0ZTtyaW8gYWp1c3RhZG8uIENvbSBhIGFsdGVyYSZjY2VkaWw7JmF0aWxkZTtvIGRlc3NlIGFzcGVjdG8sIHBhc3NhbSBhIHNlciBjb25zaWRlcmFkb3MgZGVzb2N1cGFkb3MgYXF1ZWxlcyBxdWUgY29uc2VndWlyYW0gcHJvcG9zdGEgZGUgdHJhYmFsaG8gcGFyYSBjb21lJmNjZWRpbDthciBhcCZvYWN1dGU7cyBhIHNlbWFuYSBkZSByZWZlciZlY2lyYztuY2lhIGUgcXVlIGlyaWFtIGNvbWUmY2NlZGlsO2FyIGEgdHJhYmFsaGFyIGVtIGF0JmVhY3V0ZTsgMyBtZXNlczsgb3MgZGVtYWlzLCBpc3RvICZlYWN1dGU7LCBhcXVlbGVzIHF1ZSBjb25zZWd1aXJhbSBwcm9wb3N0YSBwYXJhIGNvbWUmY2NlZGlsO2FyIGEgdHJhYmFsaGFyIGFwJm9hY3V0ZTtzIDMgbWVzZXMgZGEgc2VtYW5hIGRlIHJlZmVyJmVjaXJjO25jaWEsIHBhc3NhbSBhIHNlciBjb250YWJpbGl6YWRvcyBuYSBwb3B1bGEmY2NlZGlsOyZhdGlsZGU7byBmb3JhIGRhIGZvciZjY2VkaWw7YSBkZSB0cmFiYWxoby4gQW50ZXJpb3JtZW50ZSwgZXJhbSBjb25zaWRlcmFkb3MgZW50cmUgb3MgZGVzb2N1cGFkb3MgdG9kb3MgYXF1ZWxlcyBxdWUgY29uc2VndWlyYW0gcHJvcG9zdGEgZGUgdHJhYmFsaG8gcGFyYSBjb21lJmNjZWRpbDthciBhcCZvYWN1dGU7cyBhIHNlbWFuYSBkZSByZWZlciZlY2lyYztuY2lhLCBpbmRlcGVuZGVudGVtZW50ZSBkbyB0ZW1wbyBlbSBxdWUgaW5pY2lhcmlhbSBvIHRyYWJhbGhvIHF1ZSBjb25zZWd1aXJhbS5cIiIsCiAgImZvbnRlIjogIlwiSUJHRSAtIFBlc3F1aXNhIE5hY2lvbmFsIHBvciBBbW9zdHJhIGRlIERvbWlj7Wxpb3MgQ29udO1udWEgbWVuc2FsXCIiLAogICJzZXJ2aWNlIjogIi8vc2Vydmljb2RhZG9zLmliZ2UuZ292LmJyL2FwaS92MS9jb25qdW50dXJhaXM/JmQ9MiZ1c2VyPWliZ2UiCn0=" data-regioes="WwogIHsKICAgICJOaXZlbFRlcnJpdG9yaWFsIjogIkJyYXNpbCIsCiAgICAiQ29kaWdvIjogMSwKICAgICJOb21lIjogIkJyYXNpbCIsCiAgICAiTm9tZUNvbXBsZW1lbnRvMSI6ICIiLAogICAgIk5vbWVDb21wbGVtZW50bzIiOiAiIiwKICAgICJVRiI6ICIiLAogICAgIkRhdGFJbmljaW9FeGlzdGVuY2lhIjogIiIsCiAgICAiRGF0YUZpbUV4aXN0ZW5jaWEiOiAiIiwKICAgICJOaXZlbElkZW50YWNhbyI6IDAKICB9Cl0=" data-pivotparams="ewogICJkZXJpdmVkQXR0cmlidXRlcyI6IHt9LAogICJoaWRkZW5BdHRyaWJ1dGVzIjogW10sCiAgIm1lbnVMaW1pdCI6IDUwMCwKICAiY29scyI6IFtdLAogICJyb3dzIjogWwogICAgIlZhcmnhdmVsIiwKICAgICJVbmlkYWRlIgogIF0sCiAgInZhbHMiOiBbXSwKICAicm93T3JkZXIiOiAia2V5X2FfdG9feiIsCiAgImNvbE9yZGVyIjogImtleV9hX3RvX3oiLAogICJleGNsdXNpb25zIjoge30sCiAgImluY2x1c2lvbnMiOiB7fSwKICAidW51c2VkQXR0cnNWZXJ0aWNhbCI6IDg1LAogICJhdXRvU29ydFVudXNlZEF0dHJzIjogZmFsc2UsCiAgInNvcnRlcnMiOiB7fSwKICAiYWdncmVnYXRvck5hbWUiOiAiU29tYSIsCiAgImluY2x1c2lvbnNJbmZvIjoge30sCiAgInJlbmRlcmVyTmFtZSI6ICJUYWJlbGEgSW1wdXThdmVsIgp9" data-tablealias="ewogICJ2YXIiOiAiVmFyaeF2ZWwiLAogICJ1bSI6ICJVbmlkYWRlIiwKICAiZ3JhZmljb1RpdHVsbyI6ICJUYXhhIGRlIGRlc29jdXBh5+NvIGRhcyBwZXNzb2FzIGRlIDE0IGFub3Mgb3UgbWFpcyIKfQ==">
+    <p class="sidraHolder">#tabelasidra201784141147667</p>
+    </div>
+    <p> </p>
+    <div id="tabelasidra201784142039847" data-formquery="ewogICJ0YWJsZWlkIjogIjYzOTAiLAogICJ2YXJpYXZlbCI6ICI1OTMzLDg4MzIsODgyNiIsCiAgInBlcmlvZG8iOiAiLTEiLAogICJ0ZXJyaXRvcmlvIjogWwogICAgIjEtMSIKICBdLAogICJjYXRlZ29yaWEiOiBbXQp9" data-searchquery="ewogICJ0IjogIjYzOTAiLAogICJ2IjogIjU5MzMsODgzMiw4ODI2IiwKICAicCI6ICItMSIsCiAgIm5nIjogIjEoMSkiLAogICJjIjogIiIsCiAgIm5vdGEiOiAiXCIxIC0gUGFyYSBcXFwiPGI+U2l0dWEmY2NlZGlsOyZhdGlsZGU7byBkYSBWYXJpYSZjY2VkaWw7JmF0aWxkZTtvIGVtIHJlbGEmY2NlZGlsOyZhdGlsZGU7byBhIHRyJmVjaXJjO3MgdHJpbWVzdHJlcyBtJm9hY3V0ZTt2ZWlzIGFudGVyaW9yZXMgKC4uLik8L2I+XFxcIiBlIFxcXCI8Yj5TaXR1YSZjY2VkaWw7JmF0aWxkZTtvIGRhIFZhcmlhJmNjZWRpbDsmYXRpbGRlO28gZW0gcmVsYSZjY2VkaWw7JmF0aWxkZTtvIGFvIG1lc21vIHRyaW1lc3RyZSBtJm9hY3V0ZTt2ZWwgZG8gYW5vIGFudGVyaW9yICguLi4pPC9iPlxcXCI6PGJyPiAnWicgaW5kaWNhIHNpZ25pZmljJmFjaXJjO25jaWEgZXN0YXQmaWFjdXRlO3N0aWNhIGNvbnNpZGVyYW5kbyA5NSUgZGUgY29uZmlhbiZjY2VkaWw7YTs8YnI+ICdBJyBpbmRpY2EgYXVzJmVjaXJjO25jaWEgZGUgc2lnbmlmaWMmYWNpcmM7bmNpYSBlc3RhdCZpYWN1dGU7c3RpY2EgY29uc2lkZXJhbmRvIDk1JSBkZSBjb25maWFuJmNjZWRpbDthLjxicj48YnI+MiAtIFBhcmEgYyZhYWN1dGU7bGN1bG8gZG8gdmFsb3IgcmVhbCwgJmVhY3V0ZTsgdXRpbGl6YWRvIG8gZGVmbGF0b3IgZG8gbSZlY2lyYztzIGRvIG1laW8gZG8gJnVhY3V0ZTtsdGltbyB0cmltZXN0cmUgZGUgY29sZXRhIGRpdnVsZ2Fkby5cIiIsCiAgImZvbnRlIjogIlwiSUJHRSAtIFBlc3F1aXNhIE5hY2lvbmFsIHBvciBBbW9zdHJhIGRlIERvbWlj7Wxpb3MgQ29udO1udWEgbWVuc2FsXCIiLAogICJzZXJ2aWNlIjogIi8vc2Vydmljb2RhZG9zLmliZ2UuZ292LmJyL2FwaS92MS9jb25qdW50dXJhaXM/JmQ9MiZ1c2VyPWliZ2UiCn0=" data-regioes="WwogIHsKICAgICJOaXZlbFRlcnJpdG9yaWFsIjogIkJyYXNpbCIsCiAgICAiQ29kaWdvIjogMSwKICAgICJOb21lIjogIkJyYXNpbCIsCiAgICAiTm9tZUNvbXBsZW1lbnRvMSI6ICIiLAogICAgIk5vbWVDb21wbGVtZW50bzIiOiAiIiwKICAgICJVRiI6ICIiLAogICAgIkRhdGFJbmljaW9FeGlzdGVuY2lhIjogIiIsCiAgICAiRGF0YUZpbUV4aXN0ZW5jaWEiOiAiIiwKICAgICJOaXZlbElkZW50YWNhbyI6IDAKICB9Cl0=" data-pivotparams="ewogICJkZXJpdmVkQXR0cmlidXRlcyI6IHt9LAogICJoaWRkZW5BdHRyaWJ1dGVzIjogW10sCiAgIm1lbnVMaW1pdCI6IDUwMCwKICAiY29scyI6IFtdLAogICJyb3dzIjogWwogICAgIlZhcmnhdmVsIiwKICAgICJVbmlkYWRlIgogIF0sCiAgInZhbHMiOiBbXSwKICAicm93T3JkZXIiOiAia2V5X2FfdG9feiIsCiAgImNvbE9yZGVyIjogImtleV9hX3RvX3oiLAogICJleGNsdXNpb25zIjoge30sCiAgImluY2x1c2lvbnMiOiB7fSwKICAidW51c2VkQXR0cnNWZXJ0aWNhbCI6IDg1LAogICJhdXRvU29ydFVudXNlZEF0dHJzIjogZmFsc2UsCiAgInNvcnRlcnMiOiB7fSwKICAiYWdncmVnYXRvck5hbWUiOiAiU29tYSIsCiAgImluY2x1c2lvbnNJbmZvIjoge30sCiAgInJlbmRlcmVyTmFtZSI6ICJUYWJlbGEgSW1wdXThdmVsIgp9" data-tablealias="ewogICJ1ZyI6ICIgIiwKICAidmFyIjogIlZhcmnhdmVsIiwKICAidW0iOiAiVW5pZGFkZSIsCiAgImdyYWZpY29UaXR1bG8iOiAiUmVuZGltZW50byBt6WRpbyBtZW5zYWwgZGFzIHBlc3NvYXMgZGUgMTQgYW5vcyBvdSBtYWlzIgp9">
+    <p class="sidraHolder">#tabelasidra201784142039847</p>
+    </div>
+    */
 </script>
+
 </html>
