@@ -1,0 +1,66 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Portal IBGE - 1 ano</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  
+<style>
+    html, body{
+        background-color: #008ebb;
+        color: #fff;
+        font-family: 'Open Sans',sans-serif, Arial, Helvetica;
+        font-weight: bold;
+        font-size: 2.5em;
+        line-height: 0.85em;
+        
+
+    }
+    #textholder{
+        position: absolute;
+        top: 250px;
+        left: 300px;
+        right: 100px;
+        cursor: pointer;
+    }
+    small{
+        font-size: 70%;
+        color: #88eeff;
+    }
+</style>
+
+</head>
+
+<body onclick="gotext();">
+  <div id="textholder">
+Portal IBGE<br /><small>1 ano</small>
+  </div>
+
+
+<script>
+    var i=1;
+    var texts = [
+      'Portal IBGE<br /><small>1 ano</small>',
+      'Atrás da tela<br /><small>O trabalho nos bastidores</small>',
+      'Funcionalidades do portal',
+      'Funcionalidades dentro de produtos',
+      'Produtos específicos',
+      'Visão do usuário<br /><small>Perguntas, dúvidas e sugestões</small>'
+    ];
+    function gotext(){
+        if(i >= texts.length){
+             i = 0; 
+        }
+        document.getElementById("textholder").innerHTML = texts[i];
+        i++;
+    }
+</script>
+
+
+</body>
+
+</html>
