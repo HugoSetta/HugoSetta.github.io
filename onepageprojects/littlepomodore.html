@@ -1,0 +1,94 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+	body{
+		background-color: #F5F5F5;
+		margin: 0;
+		height: 100%;
+		width: 100%;
+	}
+	#stage{
+		width: 95%;
+		margin: 10px auto;
+		text-align: center;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+	h1{font-size: 5em; margin-bottom: 0;}
+	h2{font-size: 2em; margin-top: 0;}
+	
+</style>
+    </head>
+    <body id="body" class="font-default" style="color:#1976D2">
+		<div id="stage">
+			<div id="textinfo-container">
+				<h1 id="timer">17:00</h1>
+				<h2 id="status">FOCO</h2>
+			</div>
+		</div>
+    </body>
+	<script>
+		
+var segs = 0;
+var mins = 0;
+
+var pomfoco = 25;
+var pomrelax = 5;
+var onfoco = true;
+
+function go(){
+	segs++;
+	if(segs == 60){
+		segs = 0;
+		mins++;
+	}
+	if(onfoco){
+		if(mins == pomfoco){
+			mins = 0;
+			onfoco = false;
+			printStatus();
+		}
+	}else{
+		if(mins == pomrelax){
+			mins = 0;
+			onfoco = true;
+			printStatus();
+		}
+	}
+	printTime();
+	goAgain();
+}
+
+function goAgain(){
+	console.log('goAgain');
+	var x = setTimeout("go()",1000);
+}
+
+function printTime(){
+	console.log(segs);
+	var tsegs = segs.toString();
+	if(tsegs.length <2){
+		tsegs = "0"+tsegs;
+	}
+	document.getElementById("timer").innerHTML = mins + ":" + tsegs;
+}
+function printStatus(){
+	if(onfoco){
+		document.getElementById("status").innerHTML = "FOCO";
+		document.getElementById("body").style.color = "#1976D2";
+	}else{
+		document.getElementById("status").innerHTML = "RELAX";
+		document.getElementById("body").style.color = "#8BC34A";
+	}
+}
+
+go();
+		
+
+	</script>
+</html>
